@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Google</title>
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
+        
+        <!-- W3.CSS-->
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+		
+		<script type="text/javascript" src="myScript.js"></script>
+		
+        <!-- Google Maps API-->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDvI94j30fJaJNBk2dmGOZkuoTtgnXd0M0&callback=initMap" async defer></script>
+    
+		
+		
+        <style>
+            /* Always set the map height explicitly to define the size of the div
+            * element that contains the map. */
+            #map {
+                height: 80%;
+            }
+            /* Optional: Makes the sample page fill the window. */
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+    </head>    
+    
+    <body>
+        <div class="w3-panel w3-khaki">
+            <h1 id="title" class="w3-center w3-text-blue">Google Maps</h1>
+        </div>
+         <!-- test <p>This line show data from server thingspeaks: <i id="data">0</i> </p> -->
+        <p id="data1"></p>
+        <div id="map" style=""></div>
+        
+        <script>
+
+			var index;
+			
+            getData();
+            setInterval(getData, 2000);
+            
+            /*this function init Google maps*/
+            function initMap() {
+            
+                /* Create maps */
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 14,
+                    center: {lat: 10.8022498, lng: 106.7146623},
+                    // remove all landmarks, example style in https://mapstyle.withgoogle.com/
+                    styles: [
+                        {    "featureType": "administrative","elementType": "geometry",
+                            "stylers": [{"visibility": "off"}]
+                        },
+                        {    "featureType": "poi",
+                            "stylers": [{"visibility": "off"}]
+                        },
+                        {    "featureType": "road",
+                            "elementType": "labels.icon",
+                            "stylers": [{"visibility": "off"}]
+                        },
+                        {    "featureType": "transit",
+                            "stylers": [{"visibility": "off"}]
+                        }
+                    ]
+                }); /* END: Create maps */
+                
+                /* Create maker that have a parking location */
+                var myMarker =[];
+                for (index=0; index<myParking.length; index++){
+                     var marker = new google.maps.Marker({
+                        position: myParking[index].latLng,
+                        map: map,
+                        label: '0',
+                        title: myParking[index].name
+                    });
+                    myMarker.push(marker);
+                } /* END: Create maker that have a parking location */
+                
+                /* Create myInfowindowMarker will show in Maker */
+                var myInfowindowMarker =[];
+                for (index=0; index<myParking.length; index++){
+                    var infowindowMarker = new google.maps.InfoWindow({
+                    content: '<p><strong>PARKING: '+ myParking[index].name +'</strong></p>\
+                             <p>Address: '+  myParking[index].address +'</p>\
+                             <p>Total: ' + myParking[index].total +'</p>\
+                             <p>Available: ' + myParking[index].available + '</p>'
+                    });
+                    myInfowindowMarker.push(infowindowMarker);
+                }/* END: Create myInfowindowMarker will show in Maker */
+                
+                
+                setInterval(updateMarker, 2000);
+ 
+                /* Function auto update available every 2s */
+                function updateMarker(){
+                    for (index=0; index<myParking.length; index++){
+                        myMarker[index].setLabel(myParking[index].available);
+                        myInfowindowMarker[index].setContent('  <p><strong> PARKING: '+ myParking[index].name +'</strong></p>\
+                                                                <p>Address: '+  myParking[index].address +'</p>\
+                                                                <p>Total: ' + myParking[index].total +'</p>\
+                                                                <p>Available: ' + myParking[index].available + '</p>');
+                    }
+                } /* END: Function auto update available every 2s */
+                
+                
+                /* Create event check click in parking poisition */
+                myMarker[0].addListener('click', function() {
+                    /* Do something here */
+                    window.open("demo.html?id="+myParking[0].ID,"_self");
+                });
+                myMarker[1].addListener('click', function() {
+                    /* Do something here */
+					window.open("demo.html?id="+myParking[1].ID,"_self");
+                });
+                myMarker[2].addListener('click', function() {
+                    /* Do something here */
+					window.open("demo.html?id="+myParking[2].ID,"_self");
+                });
+                myMarker[3].addListener('click', function() {
+                    /* Do something here */
+					window.open("demo.html?id="+myParking[3].ID,"_self");
+                });
+                myMarker[4].addListener('click', function() {
+                    /* Do something here */
+					window.open("demo.html?id="+myParking[4].ID,"_self");
+                });
+                myMarker[5].addListener('click', function() {
+                    /* Do something here */
+					window.open("demo.html?id="+myParking[5].ID,"_self");
+                });
+                myMarker[6].addListener('click', function() {
+                    /* Do something here */
+					window.open("demo.html?id="+myParking[6].ID,"_self");
+                });
+                myMarker[7].addListener('click', function() {
+                    /* Do something here */
+					window.open("demo.html?id="+myParking[7].ID,"_self");
+                });
+                /* END: Create event check click in parking poisition */
+                
+                
+                /* Create event when mouse over and mouse out when check parking */
+                myMarker[0].addListener('mouseover', function() {
+                        myInfowindowMarker[0].open(map, myMarker[0]);
+                });
+                myMarker[0].addListener('mouseout', function() {
+                    myInfowindowMarker[0].close();
+                });
+                
+                myMarker[1].addListener('mouseover', function() {
+                        myInfowindowMarker[1].open(map, myMarker[1]);
+                });
+                myMarker[1].addListener('mouseout', function() {
+                    myInfowindowMarker[1].close();
+                });
+                
+                myMarker[2].addListener('mouseover', function() {
+                        myInfowindowMarker[2].open(map, myMarker[2]);
+                });
+                myMarker[2].addListener('mouseout', function() {
+                    myInfowindowMarker[2].close();
+                });
+                
+                myMarker[3].addListener('mouseover', function() {
+                        myInfowindowMarker[3].open(map, myMarker[3]);
+                });
+                myMarker[3].addListener('mouseout', function() {
+                    myInfowindowMarker[3].close();
+                });
+                
+                myMarker[4].addListener('mouseover', function() {
+                        myInfowindowMarker[4].open(map, myMarker[4]);
+                });
+                myMarker[4].addListener('mouseout', function() {
+                    myInfowindowMarker[4].close();
+                });
+                
+                myMarker[5].addListener('mouseover', function() {
+                        myInfowindowMarker[5].open(map, myMarker[5]);
+                });
+                myMarker[5].addListener('mouseout', function() {
+                    myInfowindowMarker[5].close();
+                });
+                
+                myMarker[6].addListener('mouseover', function() {
+                        myInfowindowMarker[6].open(map, myMarker[6]);
+                });
+                myMarker[6].addListener('mouseout', function() {
+                    myInfowindowMarker[6].close();
+                });
+                
+                myMarker[7].addListener('mouseover', function() {
+                        myInfowindowMarker[7].open(map, myMarker[7]);
+                });
+                myMarker[7].addListener('mouseout', function() {
+                    myInfowindowMarker[7].close();
+                });
+                /* END: Create event when mouse over and mouse out when check parking */
+            }
+            /*End function initMap*/    
+            
+        </script>
+    
+    </body>
+</html>

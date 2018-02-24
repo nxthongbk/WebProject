@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>QWE</title>
+		<meta name="viewport" content="initial-scale=1.0">
+		<meta charset="utf-8">
+		
+		 <!-- W3.CSS-->
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+		
+		<script type="text/javascript" src="myScript.js"></script>
+		
+		<script>
+			var x = location.href.split("?")[1].split("=")[1];
+			var index=0;
+			var thisPage = 0;
+			for (index=0; index< numbParking; index++){
+				if (myParking[index].ID == x) {
+					thisPage = index;
+					break;
+				}
+			}
+		</script>
+	</head>
+	
+	<body>
+		<h1 id="href"></h1>
+		<p> Slot available is: <i id="available"></i></p>
+	    <div class="w3-container w3-padding-small">
+			<button class="w3-button w3-khaki" id ="P1">Poision 1</button>
+			<button class="w3-button w3-khaki" id ="P2">Poision 2</button>
+			<button class="w3-button w3-khaki" id ="P3">Poision 3</button>
+			<button class="w3-button w3-khaki" id ="P4">Poision 4</button>
+		</div>
+		<div class="w3-container w3-padding-small">
+			<button class="w3-button w3-khaki" id ="P5">Poision 5</button>
+			<button class="w3-button w3-khaki" id ="P6">Poision 6</button>
+			<button class="w3-button w3-khaki" id ="P7">Poision 7</button>
+			<button class="w3-button w3-khaki" id ="P8">Poision 8</button>
+		</div>	
+		
+		<script>
+			document.getElementById('href').innerHTML = myParking[thisPage].name;
+			
+			updateData();
+			setInterval(updateData, 2000);
+			
+			function updateData(){
+				var data = getData();
+				document.getElementById('available').innerHTML = myParking[thisPage].available;
+				var i; 
+                var j = [1,2,4,8,16,32,64,128];
+                for (i=0; i<8; i++){
+                    var k = (thisData[thisPage]&j[i])>>i;
+	            updateClassId('P'+(i+1), k);
+                }
+				
+			}
+			
+			function updateClassId(id, value){
+				if (value == 1){
+					document.getElementById(id).className="w3-button w3-blue";
+				}
+				else{
+					document.getElementById(id).className="w3-button w3-khaki";
+				}
+			}
+			
+			
+		</script>
+    </body>
+</html>

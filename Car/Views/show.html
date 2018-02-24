@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+    <script>
+        function updateClassId(id, value){
+            if (value == 1){
+                document.getElementById(id).className="w3-button w3-blue";
+            }
+            else{
+                document.getElementById(id).className="w3-button w3-khaki";
+            }
+        } // end function updateClassId
+
+      function getData(){
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', "https://api.thingspeak.com/channels/264102/feeds.json?api_key=4QOEYXBALUNK9QO4&results=10", true);
+        xhr.send(); 
+        xhr.onreadystatechange = processRequest;
+  
+        function processRequest(e) {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var response = JSON.parse(xhr.responseText);
+                document.getElementById("data").innerHTML = response.feeds[0].field1;
+                var P0 = response.feeds[9].field1;
+                var chartData = [response.feeds[0].field1,response.feeds[1].field1,response.feeds[2].field1,response.feeds[3].field1,response.feeds[4].field1,response.feeds[5].field1,response.feeds[6].field1,response.feeds[7].field1,response.feeds[8].field1,response.feeds[9].field1];
+
+		myChart(chartData);	        
+		var i; 
+                var j = [1,2,4,8,16,32,64,128];
+                for (i=0; i<8; i++){
+                    var k = (P0&j[i])>>i;
+	            updateClassId('P'+(i+1), k);
+                }
+            }
+            else{
+            }
+         }
+       }  // end function getData
+
+      
+    </script>
+  </head>
+
+  <body>
+    <h1>Demo Car Parking</h1>
+    <div class="w3-panel w3-red">
+    <p>this demo use express.</p>
+    </div>  
+    <p>Value get data from Thingspeak: <i id="data"></i></p>
+
+    <div class="w3-container w3-padding-small">
+      <button class="w3-button w3-khaki" id ="P1">Poision 1</button>
+      <button class="w3-button w3-khaki" id ="P2">Poision 2</button>
+      <button class="w3-button w3-khaki" id ="P3">Poision 3</button>
+      <button class="w3-button w3-khaki" id ="P4">Poision 4</button>
+    </div>
+    <div class="w3-container w3-padding-small">
+      <button class="w3-button w3-khaki" id ="P5">Poision 5</button>
+      <button class="w3-button w3-khaki" id ="P6">Poision 6</button>
+      <button class="w3-button w3-khaki" id ="P7">Poision 7</button>
+      <button class="w3-button w3-khaki" id ="P8">Poision 8</button>
+    </div>
+
+
+    <script>
+
+     setInterval(getData, 5000);
+
+   </script>
+  </body>
+
+</html>
